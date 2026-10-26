@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- PYTHON / PYSCRIPT -->
+    <link rel="stylesheet" href="https://pyscript.net/releases/2026.7.3/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2026.7.3/core.js"></script>
+    <link rel="stylesheet" href="styles.css">
+
+    <title>Working with Pyscript Dictionaries</title>
+
+    <style>
+
+        /* GENERAL RESET */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* COLOR PALETTE */
+        :root {
+            --dark-bg: #090b20;
+            --navy: #111a40;
+            --purple: #7838ff;
+            --blue: #167bff;
+            --cyan: #00e5ff;
+            --red: #ff304f;
+            --orange: #ff9d00;
+            --white: #ffffff;
+        }
+
+        /* PAGE BACKGROUND */
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            padding: 30px 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(120, 56, 255, 0.18),
+                    transparent 45%
+                ),
+                linear-gradient(
+                    315deg,
+                    rgba(22, 123, 255, 0.2),
+                    transparent 50%
+                ),
+                var(--dark-bg);
+
+            color: var(--white);
+            font-family: Impact, "Arial Black", sans-serif;
+
+            overflow-x: hidden;
+        }
+
+        /* HEADING */
+        h2 {
+            max-width: 800px;
+            margin-bottom: 35px;
+
+            color: var(--white);
+            font-size: clamp(28px, 5vw, 48px);
+            font-weight: 900;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.3;
+
+            text-shadow:
+                3px 3px 0 var(--purple),
+                6px 6px 0 var(--blue),
+                0 0 20px rgba(0, 229, 255, 0.4);
+
+            transform: skew(-2deg);
+        }
+
+        /* SEARCH FORM */
+        form {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* GAME INPUT */
+        input[type="text"] {
+            width: 100%;
+            padding: 17px 20px;
+
+            border: 3px solid var(--blue);
+            border-radius: 5px;
+
+            background: var(--navy);
+            color: var(--white);
+
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+
+            outline: none;
+
+            box-shadow:
+                5px 5px 0 var(--purple),
+                0 0 15px rgba(22, 123, 255, 0.25);
+
+            transition: 0.25s ease;
+        }
+
+        /* INPUT PLACEHOLDER */
+        input[type="text"]::placeholder {
+            color: #a7b5e8;
+        }
+
+        /* INPUT FOCUS */
+        input[type="text"]:focus {
+            border-color: var(--cyan);
+
+            box-shadow:
+                5px 5px 0 var(--purple),
+                0 0 20px rgba(0, 229, 255, 0.45);
+        }
+
+        /* SEARCH BUTTON */
+        input[type="button"] {
+            width: 100%;
+            max-width: 500px;
+
+            margin-top: 10px;
+            padding: 17px 20px;
+
+            border: 3px solid var(--white);
+            border-radius: 5px;
+
+            background: linear-gradient(
+                100deg,
+                var(--purple),
+                var(--blue)
+            );
+
+            color: var(--white);
+
+            font-family: Impact, "Arial Black", sans-serif;
+            font-size: 21px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+
+            cursor: pointer;
+
+            text-shadow: 2px 2px 0 #17113b;
+
+            box-shadow:
+                0 5px 0 #352078,
+                0 0 18px rgba(120, 56, 255, 0.35);
+
+            transition: 0.2s ease;
+        }
+
+        /* BUTTON HOVER */
+        input[type="button"]:hover {
+            background: linear-gradient(
+                100deg,
+                var(--red),
+                var(--orange)
+            );
+
+            transform: translateY(-3px) scale(1.01);
+
+            box-shadow:
+                0 8px 0 #7d2439,
+                0 0 25px rgba(255, 48, 79, 0.45);
+        }
+
+        /* BUTTON CLICK */
+        input[type="button"]:active {
+            transform: translateY(3px);
+
+            box-shadow:
+                0 2px 0 #352078;
+        }
+
+        /* RESULT PANEL */
+        #result {
+            width: 100%;
+            max-width: 500px;
+            min-height: 100px;
+
+            margin-top: 30px;
+            padding: 25px;
+
+            border: 3px solid var(--purple);
+            border-left: 6px solid var(--cyan);
+            border-radius: 5px;
+
+            background: linear-gradient(
+                135deg,
+                rgba(25, 30, 75, 0.98),
+                rgba(17, 13, 43, 0.98)
+            );
+
+            color: var(--cyan);
+
+            font-family: Arial, sans-serif;
+            font-size: 17px;
+            font-weight: bold;
+            line-height: 1.8;
+            text-align: center;
+
+            overflow-wrap: anywhere;
+
+            box-shadow:
+                6px 6px 0 rgba(120, 56, 255, 0.45),
+                0 0 20px rgba(22, 123, 255, 0.15);
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 600px) {
+            body {
+                padding: 25px 18px;
+            }
+
+            h2 {
+                font-size: 30px;
+                letter-spacing: 1px;
+            }
+
+            input[type="text"] {
+                font-size: 15px;
+            }
+
+            input[type="button"] {
+                font-size: 18px;
+            }
+
+            #result {
+                font-size: 15px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <h2>Know the Creator of your Favorite Game</h2>
+    <form>
+        <input type="text" id="dictionary" placeholder="Enter your favorite game">
+    </form><br>
+    <input type="button" py-click="game_details" value="Search">
+    <div id="result"></div>
+    <py-script src="main.py"></py-script>
+
+</body>
+</html>
